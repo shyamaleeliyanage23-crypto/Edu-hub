@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tutor - EduAI</title>
+    <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/96/graduation-cap.png">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Specific styles for AI Tutor Page */
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .ai-container {
+            display: flex;
+            flex: 1;
+            height: calc(100vh - 80px);
+            /* Adjust based on navbar height */
+            position: relative;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--glass-background);
+            border-right: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .new-chat-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: opacity 0.3s;
+        }
+
+        .new-chat-btn:hover {
+            opacity: 0.9;
+        }
+
+        .history-list {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .history-item {
+            padding: 0.8rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: background 0.2s;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .history-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .history-item i {
+            color: var(--primary-color);
+        }
+
+        /* Main Chat Area */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--background);
+            position: relative;
+        }
+
+        .messages-container {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            display: flex;
+            gap: 1rem;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message.user .content {
+            background: var(--primary-color);
+            /* User bubble color */
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+
+        /* Fix for user message alignment */
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .ai-avatar {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .user-avatar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .content {
+            padding: 1rem 1.5rem;
+            background: white;
+            /* AI bubble color by default in light mode */
+            border-radius: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            line-height: 1.6;
+            font-size: 1rem;
+            color: #1e293b;
+        }
+
+        [data-theme="dark"] .content {
+            background: #1e293b;
+            color: #e2e8f0;
+        }
+
+        [data-theme="dark"] .message.user .content {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .input-area {
+            padding: 1.5rem;
+            background: var(--glass-background);
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: center;
+        }
+
+        .input-wrapper {
+            max-width: 800px;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            background: white;
+            border-radius: 1rem;
+            padding: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        [data-theme="dark"] .input-wrapper {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        textarea {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            outline: none;
+            resize: none;
+            background: transparent;
+            font-size: 1rem;
+            max-height: 150px;
+            color: var(--text-color);
+        }
+
+        .input-actions {
+            display: flex;
+            align-items: center;
+            padding: 0 0.5rem 0.5rem 0;
+            gap: 0.5rem;
+        }
+
+        .icon-btn {
+            background: transparent;
+            border: none;
+            color: #64748b;
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:hover {
+            background: #f1f5f9;
+            color: var(--primary-color);
+        }
+
+        [data-theme="dark"] .icon-btn:hover {
+            background: #334155;
+        }
+
+        .send-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        .send-btn:hover {
+            opacity: 0.9;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Image generation preview */
+        .generated-image {
+            max-width: 100%;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: absolute;
+                left: -280px;
+                height: 100%;
+                z-index: 100;
+                box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .sidebar.active {
+                transform: translateX(280px);
+            }
+        }
+
+        /* Thinking animation */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 4px 8px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #94a3b8;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="https://img.icons8.com/fluency/96/graduation-cap.png" alt="EduAI"
+                style="height: 32px; vertical-align: middle; margin-right: 8px;"> EduAI
+        </div>
+        <div class="hamburger" id="sidebar-toggle">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <div style="flex:1"></div> <!-- Spacer -->
+        <div class="nav-buttons">
+            <a href="index.html" class="btn secondary" style="font-size: 0.9rem; padding: 0.5rem 1rem;">Back Home</a>
+        </div>
+    </nav>
+
+    <div class="ai-container">
+        <aside class="sidebar" id="sidebar">
+            <button class="new-chat-btn">
+                <i class="fa-solid fa-plus"></i> New Chat
+            </button>
+            <div class="history-list">
+                <div class="history-item">
+                    <i class="fa-regular fa-message"></i> Physics: Newton's Laws
+                </div>
+                <div class="history-item">
+                    <i class="fa-regular fa-message"></i> Algebra Helper
+                </div>
+                <div class="history-item">
+                    <i class="fa-regular fa-image"></i> Solar System Diagram
+                </div>
+            </div>
+            <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--glass-border);">
+                <div class="user-profile" style="display: flex; align-items: center; gap: 0.8rem;">
+                    <div class="avatar user-avatar" style="width: 32px; height: 32px; font-size: 0.9rem;">U</div>
+                    <div style="font-size: 0.9rem; font-weight: 600;">Student User</div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="chat-area">
+            <div class="messages-container" id="messages">
+                <!-- Welcome Message -->
+                <div class="message">
+                    <div class="avatar ai-avatar"><i class="fa-solid fa-robot"></i></div>
+                    <div class="content">
+                        <p>Hello! I'm your EduAI tutor. I can help you solving problems, explain complex topics, or
+                            generate images to visualize concepts. What are we learning today?</p>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="input-area">
+                <div class="input-wrapper">
+                    <textarea id="chat-input" placeholder="Ask a question or describe an image..." rows="1"></textarea>
+                    <div class="input-actions">
+                        <button class="icon-btn" id="image-gen-btn" title="Generate Image">
+                            <i class="fa-regular fa-image"></i>
+                        </button>
+                        <button class="send-btn" id="send-btn">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script src="chat-script.js"></script>
+</body>
+
+</html>

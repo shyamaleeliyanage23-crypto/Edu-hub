@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - EduAI</title>
+    <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/96/graduation-cap.png">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .pricing-section {
+            padding: 5rem 5%;
+            text-align: center;
+        }
+
+        .pricing-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-subtitle {
+            opacity: 0.7;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .price-card {
+            background: var(--glass-background);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 3rem;
+            box-shadow: var(--card-shadow);
+            max-width: 400px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.5rem 3rem;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .price-header {
+            margin-bottom: 2rem;
+        }
+
+        .price-amount {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--text-color);
+        }
+
+        .price-period {
+            font-size: 1rem;
+            opacity: 0.6;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 3rem;
+            text-align: left;
+        }
+
+        .features-list li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .features-list li i {
+            color: #10b981;
+        }
+
+        .subscribe-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .subscribe-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+        }
+
+        .trial-note {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="https://img.icons8.com/fluency/96/graduation-cap.png" alt="EduAI"
+                style="height: 32px; vertical-align: middle; margin-right: 8px;"> EduAI
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="features.html">Features</a></li>
+            <li><a href="ai-tutor.html">AI Tutor</a></li>
+            <li><a href="pricing.html" class="active">Pricing</a></li>
+        </ul>
+        <div class="nav-buttons">
+            <a href="ai-tutor.html" class="btn secondary">Login</a>
+        </div>
+        <div class="hamburger">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </nav>
+
+    <div class="pricing-section">
+        <h1 class="pricing-title">Simple, Transparent Pricing</h1>
+        <p class="pricing-subtitle">Invest in your education with our premium AI tutor. Start for free, cancel anytime.
+        </p>
+
+        <div class="price-card">
+            <div class="popular-badge">POPULAR</div>
+            <div class="price-header">
+                <h3>Monthly Pro</h3>
+                <div class="price-amount">$10<span class="price-period">/mo</span></div>
+            </div>
+            <ul class="features-list">
+                <li><i class="fa-solid fa-check"></i> <strong>Unlimited</strong> AI Questions</li>
+                <li><i class="fa-solid fa-check"></i> <strong>High-Quality</strong> Image Generation</li>
+                <li><i class="fa-solid fa-check"></i> Homework Explanations</li>
+                <li><i class="fa-solid fa-check"></i> 24/7 Availability</li>
+                <li><i class="fa-solid fa-check"></i> Priority Support</li>
+            </ul>
+            <a href="https://paypal.me/SUstores382" target="_blank" class="subscribe-btn">Start 1-Month Free Trial</a>
+            <p class="trial-note">First month free, then $10/mo.</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <img src="https://img.icons8.com/fluency/96/graduation-cap.png" alt="EduAI"
+                    style="height: 32px; vertical-align: middle; margin-right: 8px;"> EduAI
+            </div>
+            <p>&copy; 2024 EduAI. Empowering Students Everywhere.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
